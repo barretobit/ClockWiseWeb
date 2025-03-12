@@ -25,6 +25,8 @@ export default {
         };
     },
     mounted() {
+        console.log('CompanyOverview mounted');
+        console.log('Company ID prop:', this.companyId);
         this.fetchEmployees();
     },
     methods: {
@@ -33,7 +35,7 @@ export default {
             this.error = null;
             try {
                 const response = await axios.get(
-                    `https://clockwise.runasp.net/api/companies/${this.companyId}/employees`
+                    `https://clockwise.runasp.net/api/employees/company/${this.companyId}`
                 );
                 this.employees = response.data;
             } catch (err) {
