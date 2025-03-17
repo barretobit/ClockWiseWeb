@@ -1,28 +1,35 @@
 <template>
-  <div id="app">
-    <LandingPage />
-  </div>
+	<div id="app">
+		<PageHeader />
+		<router-view />
+		<PageFooter />
+	</div>
 </template>
 
 <script>
-import LandingPage from './components/LandingPage.vue';
+import PageHeader from './components/static/PageHeader.vue';
+import PageFooter from './components/static/PageFooter.vue';
 
 export default {
-  components: {
-    LandingPage,
-  },
+	components: {
+		PageHeader,
+		PageFooter
+	},
 };
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+	font-family: Avenir, Helvetica, Arial, sans-serif;
 }
+
+#app {
+  display: grid;
+  grid-template-rows: auto 1fr auto; /* Header, Content, Footer */
+  min-height: 100vh;
+}
+
 body {
-    margin: 0;
-  }
+	margin: 0;
+}
 </style>
