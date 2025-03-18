@@ -79,6 +79,6 @@
 
 <script>
 export default {
-    // Component logic here (if needed)
-};
+
+}
 </script>
