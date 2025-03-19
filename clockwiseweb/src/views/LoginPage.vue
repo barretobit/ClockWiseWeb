@@ -15,42 +15,37 @@
 </template>
 
 <script>
+import { useRouter } from 'vue-router';
+import { ref } from 'vue';
+
 export default {
-    data() {
-        return {
-            username: '',
-            password: '',
-            error: '',
-        };
-    },
-    methods: {
-        async login() {
+    setup(props, { emit }) {
+        const username = ref('');
+        const password = ref('');
+        const error = ref('');
+        const router = useRouter();
+
+        const login = async () => {
             try {
-                // Replace with your actual authentication logic
-                // Example:
-                // const response = await axios.post('/api/login', {
-                //   username: this.username,
-                //   password: this.password,
-                // });
-                // if (response.data.success) {
-                //   // Successful login
-                //   this.$router.push('/'); // Redirect to home page
-                // } else {
-                //   this.error = 'Invalid username or password.';
-                // }
-                if (this.username === 'test' && this.password === 'password') {
+                if (username.value === 'test' && password.value === 'UltimateTest!#7') {
                     sessionStorage.setItem('isLoggedIn', 'true');
-                    // Simulate successful login
-                    // Store authentication token or user info if needed
-                    this.$router.push('/'); 
+                    router.push('/');
+                    emit('login-success'); // Emit the event
                 } else {
-                    this.error = 'Invalid username or password.';
+                    error.value = 'Invalid username or password.';
                 }
             } catch (err) {
-                this.error = 'An error occurred. Please try again.';
+                error.value = 'An error occurred. Please try again.';
                 console.error('Login error:', err);
             }
-        },
+        };
+
+        return {
+            username,
+            password,
+            error,
+            login,
+        };
     },
 };
 </script>
@@ -58,21 +53,15 @@ export default {
 <style scoped>
 .login-page {
     max-width: 400px;
-    margin: 50px auto;
+    margin: 50px auto auto;
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 15px;
-    align-self: center;
     text-align: center;
 }
 
 .form-group {
     margin-bottom: 15px;
-}
-
-label {
-    display: block;
-    margin-bottom: 5px;
 }
 
 input[type='text'],

@@ -1,81 +1,102 @@
 <template>
-    <header class="header">
-        <div class="header-left">
-            <nav class="nav">
-                <router-link to="/" class="nav-link">Home</router-link>
-                <router-link to="/about" class="nav-link">About</router-link>
-                <!-- <router-link to="/products" class="nav-link">Products</router-link> -->
-            </nav>
-        </div>
+	<header class="header">
+		<div class="header-left">
+			<nav v-if="isLoggedIn" class="nav">
+				<router-link to="/" class="nav-link">Home</router-link>
+				<router-link to="/logs" class="nav-link">Logs</router-link>
+				<router-link to="/reports" class="nav-link">Reports</router-link>
+			</nav>
+		</div>
 
-        <div class="header-center">
-            <img src="@/assets/logo.png" alt="Company Logo" class="logo" />
-            <!-- <img src="https://img.icons8.com/3d-fluency/200/clock.png" alt="logo" class="logo" /> -->
-        </div>
+		<div class="header-center">
+			<router-link to="/" class="logo-link">
+				<img src="@/assets/logo.png" alt="Company Logo" class="logo" />
+			</router-link>
+		</div>
 
-        <div class="header-right">
-            <button v-if="!isLoggedIn" @click="goToLogin" class="button">Login</button>
-            <button v-if="isLoggedIn" @click="logout" class="button">Logout</button>
-        </div>
-    </header>
+		<div class="header-right">
+			<button v-if="!isLoggedIn" @click="goToLogin" class="button">Login</button>
+			<button v-if="isLoggedIn" @click="logout" class="button">Logout</button>
+		</div>
+	</header>
 </template>
 
 <script>
+import { useRouter } from 'vue-router';
+
 export default {
-    data() {
-        return {
-            isLoggedIn: sessionStorage.getItem('isLoggedIn') === 'true',
-        };
-    },
-    methods: {
-        goToLogin() {
-            this.$router.push('/login');
-        },
-        logout() {
-            sessionStorage.removeItem('isLoggedIn');
-            this.isLoggedIn = false;
-            console.log('Logout clicked');
-        },
-    },
+	props: ['isLoggedIn'],
+	setup(props, { emit }) {
+		const router = useRouter();
+
+		const goToLogin = () => {
+			router.push('/login');
+		};
+
+		const logout = () => {
+			sessionStorage.removeItem('isLoggedIn');
+			emit('logout-success'); // Emit logout-success event
+			console.log('Logout clicked');
+		};
+
+		return {
+			goToLogin,
+			logout,
+		};
+	},
 };
 </script>
 
 <style scoped>
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #f0f0f0;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 1fr minmax(0, 1fr);
+	align-items: center;
+	padding: 10px 20px;
+	background-color: #f0f0f0;
 }
 
-.header-left,
-.header-center,
+.header-left {
+	grid-column: 1;
+	justify-self: start;
+}
+
+.header-center {
+	grid-column: 2;
+	justify-self: center;
+}
+
 .header-right {
-    display: flex;
-    align-items: center;
+	grid-column: 3;
+	justify-self: end;
 }
 
 .nav {
-    display: flex;
+	display: flex;
 }
 
 .nav-link {
-    margin-right: 15px;
-    text-decoration: none;
-    color: #333;
+	margin-right: 15px;
+	text-decoration: none;
+	color: #333;
 }
 
 .logo {
-    height: 40px;
+	height: 40px;
+	cursor: pointer;
+}
+
+.logo-link {
+	text-decoration: none;
+	color: inherit;
 }
 
 .button {
-    padding: 8px 15px;
-    background-color: #03ad45;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
+	padding: 8px 15px;
+	background-color: #03ad45;
+	color: white;
+	border: none;
+	cursor: pointer;
+	border-radius: 5px;
 }
 </style>
