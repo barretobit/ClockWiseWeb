@@ -25,6 +25,7 @@
 <script>
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
+import axios from 'axios';
 
 export default {
     setup() {
@@ -44,6 +45,20 @@ export default {
             }
 
             try {
+                const response = await axios.post('/api/signup', {
+                  username: username.value,
+                  email: email.value,
+                  password: password.value,
+                });
+                if (response.data.success) {
+                  successMessage.value = 'Signup successful! Please log in.';
+                  error.value = '';
+                  router.push('/login');
+                } else {
+                  error.value = response.data.message || 'Signup failed. Please try again.';
+                  successMessage.value = '';
+                }
+
                 // Simulate signup logic (replace with your actual API call)
                 // Example:
                 // const response = await axios.post('/api/signup', {
