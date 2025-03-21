@@ -3,9 +3,9 @@
         <div class="footer-content">
             <p>&copy; {{ currentYear }} ClockWise. All rights reserved. Made in Switzerland.</p>
             <nav class="footer-nav">
-                <a href="/privacy" class="nav-link">Privacy Policy</a>
-                <a href="/terms" class="nav-link">Terms of Service</a>
-                <a href="/contact" class="nav-link">Contact Us</a>
+                <router-link to="/privacy" class="nav-link">Privacy Policy</router-link>
+                <router-link to="/terms" class="nav-link">Terms of Service</router-link>
+                <router-link to="/contact" class="nav-link">Contact Us</router-link>
             </nav>
         </div>
     </footer>
