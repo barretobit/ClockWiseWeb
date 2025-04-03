@@ -1,7 +1,7 @@
 # ClockWiseWeb - Time Management Application
 
 ClockWise is a modern web application designed to simplify time management for individuals and teams. It offers features like effortless time tracking, detailed reports, customizable project management, and a user-friendly interface. Built with Vue 3, this application provides a seamless and efficient experience for tracking and analyzing time.
-The Backend is supported by a morden C# .NET 8 RESTful API.
+The Backend is supported by a modern C# .NET 8 RESTful API.
 
 ## Table of Contents
 
@@ -96,3 +96,4 @@ Contributions are welcome! To contribute:
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
+João Barreto
