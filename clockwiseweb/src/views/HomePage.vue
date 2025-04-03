@@ -27,9 +27,12 @@
             <section class="get-started">
                 <h2>Get Started Today</h2>
                 <p>Sign up now to experience the benefits of ClockWise.</p>
-                <button class="signup-button" @click="goToSignup">Sign Up</button>
+                <!-- <button class="signup-button" @click="goToSignup">Sign Up</button> -->
+                <BButton @click="goToSignup" class="home-button" variant="primary"><i class="bi bi-check-circle-fill"></i>&nbsp; Sign Up</BButton>
+                
                 <p>Already have an account?</p>
-                <button class="login-button" @click="goToLogin">Login</button>
+                <!-- <button class="login-button" @click="goToLogin">Login</button> -->
+                <BButton @click="goToLogin" class="home-button" variant="success"><i class="bi bi-key-fill"></i>&nbsp; Login</BButton>
             </section>
         </div>
     </div>
@@ -37,8 +40,12 @@
 
 <script>
 import { useRouter } from 'vue-router';
+import { BButton } from 'bootstrap-vue-next';
 
 export default {
+    components: {
+        BButton,
+    },
     props: ['isLoggedIn'],
     setup() {
         const router = useRouter();
@@ -60,6 +67,10 @@ export default {
 </script>
 
 <style scoped>
+
+.home-button {
+    margin-bottom: 15px;
+}
 .home {
     text-align: center;
     padding: 40px;
@@ -95,18 +106,18 @@ export default {
 }
 
 .get-started {
-    margin-bottom: 40px;
+    /* margin-bottom: 40px; */
 }
 
 .get-started h2 {
     font-size: 1.8em;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
 }
 
 .signup-button {
-    padding: 9px 22px;
+    /* padding: 9px 22px; */
     font-size: 1em;
-    background-color: #007bff;
+    /* background-color: #007bff; */
     color: white;
     border: none;
     cursor: pointer;
@@ -114,7 +125,7 @@ export default {
 }
 
 .login-button {
-    padding: 9px 22px;
+    /* padding: 9px 22px; */
     font-size: 1em;
     background-color: #03ad45;
     color: white;

@@ -1,7 +1,7 @@
 <template>
     <footer class="footer">
         <div class="footer-content">
-            <p>&copy; {{ currentYear }} ClockWise. All rights reserved. Made in Switzerland.</p>
+            <p>&copy; {{ currentYear }} ClockWise. All rights reserved. Made in Switzerland by João Barreto</p>
             <nav class="footer-nav">
                 <router-link to="/privacy" class="nav-link">Privacy Policy</router-link>
                 <router-link to="/terms" class="nav-link">Terms of Service</router-link>

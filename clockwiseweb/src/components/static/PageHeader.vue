@@ -15,16 +15,20 @@
 		</div>
 
 		<div class="header-right">
-			<button v-if="!isLoggedIn" @click="goToLogin" class="button">Login</button>
-			<button v-if="isLoggedIn" @click="logout" class="button">Logout</button>
+			<BButton v-if="!isLoggedIn" @click="goToLogin" variant="success">Login</BButton>
+			<BButton v-if="isLoggedIn" @click="logout" variant="danger">Logout</BButton>
 		</div>
 	</header>
 </template>
 
 <script>
 import { useRouter } from 'vue-router';
+import { BButton } from 'bootstrap-vue-next';
 
 export default {
+	components: {
+        BButton,
+    },
 	props: ['isLoggedIn'],
 	setup(props, { emit }) {
 		const router = useRouter();
