@@ -2,13 +2,25 @@
     <div class="home">
         <div v-if="isLoggedIn">
             <h1>Welcome back to ClockWise!</h1>
+            <p>Are you starting or finishing your work?</p>
+            <BButton @click="startWorking" class="home-button" variant="light"><i class="bi bi-play-btn"></i>&nbsp;
+                Start</BButton>&nbsp;
+            <BButton @click="stopWorking" class="home-button" variant="light"><i class="bi bi-stop-btn"></i>&nbsp; Stop
+            </BButton>
             <p>Here's a summary of your recent activity.</p>
-            <section class="user-dashboard">
-                <h2>Your Dashboard</h2>
-                <p>You have 5 projects in progress.</p>
-                <p>You have 2 reports to review.</p>
+            <section class="user-dashboard" v-if="activitySummary">
+                <p>Time Worked today: {{ activitySummary }}</p>
+                <p>Time Worked this week: {{ activitySummary.week }}</p>
+                <p>Time Worked this month: {{ activitySummary.month }}</p>
                 <button class="view-reports-button">View Reports</button>
             </section>
+            <div v-else-if="loading" class="loading-spinner">
+                <b-spinner variant="primary" type="border"></b-spinner>
+                <p>Loading activity summary...</p>
+            </div>
+            <div v-else-if="error" class="error-message">
+                <p>Error: {{ error }}</p>
+            </div>
         </div>
         <div v-else>
             <h1>Welcome to ClockWise!</h1>
@@ -27,12 +39,11 @@
             <section class="get-started">
                 <h2>Get Started Today</h2>
                 <p>Sign up now to experience the benefits of ClockWise.</p>
-                <!-- <button class="signup-button" @click="goToSignup">Sign Up</button> -->
-                <BButton @click="goToSignup" class="home-button" variant="primary"><i class="bi bi-check-circle-fill"></i>&nbsp; Sign Up</BButton>
-                
+                <BButton @click="goToSignup" class="home-button" variant="primary"><i
+                        class="bi bi-check-circle-fill"></i>&nbsp; Sign Up</BButton>
                 <p>Already have an account?</p>
-                <!-- <button class="login-button" @click="goToLogin">Login</button> -->
-                <BButton @click="goToLogin" class="home-button" variant="success"><i class="bi bi-key-fill"></i>&nbsp; Login</BButton>
+                <BButton @click="goToLogin" class="home-button" variant="success"><i class="bi bi-key-fill"></i>&nbsp;
+                    Login</BButton>
             </section>
         </div>
     </div>
@@ -40,15 +51,20 @@
 
 <script>
 import { useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue';
 import { BButton } from 'bootstrap-vue-next';
+import axios from 'axios';
 
 export default {
     components: {
         BButton,
     },
     props: ['isLoggedIn'],
-    setup() {
+    setup(props) {
         const router = useRouter();
+        const activitySummary = ref(null);
+        const loading = ref(false);
+        const error = ref(null);
 
         const goToSignup = () => {
             router.push('/signup');
@@ -58,19 +74,55 @@ export default {
             router.push('/login');
         };
 
+        const fetchActivitySummary = async () => {
+            if (!props.isLoggedIn) return;
+
+            loading.value = true;
+            error.value = null;
+
+            try {
+                const response = await axios.get('https://clockwise.runasp.net/api/tickLogs/workedtoday/62');
+                activitySummary.value = response.data;
+            } catch (err) {
+                error.value = 'Failed to fetch activity summary.';
+                console.error(err);
+            } finally {
+                loading.value = false;
+            }
+        };
+
+        onMounted(() => {
+            fetchActivitySummary();
+        });
+
+        const startWorking = () => {
+            // Logic to start tracking work
+            console.log('Start Working clicked');
+        };
+
+        const stopWorking = () => {
+            // Logic to stop tracking work
+            console.log('Stop Working clicked');
+        };
+
         return {
             goToSignup,
             goToLogin,
+            activitySummary,
+            loading,
+            error,
+            startWorking,
+            stopWorking,
         };
     },
 };
 </script>
 
 <style scoped>
-
 .home-button {
     margin-bottom: 15px;
 }
+
 .home {
     text-align: center;
     padding: 40px;
