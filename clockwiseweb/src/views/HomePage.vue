@@ -95,14 +95,30 @@ export default {
             fetchActivitySummary();
         });
 
+        const submitTickLog = async () => {
+            try {
+                var today = new Date();
+                const inputTickLog = {
+                    employeeId: '64',
+                    tick: today,
+                    isApproved: true,
+                    isDeleted: false
+                }
+                axios.post('https://clockwise.runasp.net/api/tickLogs', inputTickLog);
+            } catch (err) {
+                error.value = 'Failed to start Working Tick. Try again please.';
+                console.error(err);
+            } finally {
+                loading.value = false;
+            }
+        }
+
         const startWorking = () => {
-            // Logic to start tracking work
-            console.log('Start Working clicked');
+            submitTickLog();
         };
 
         const stopWorking = () => {
-            // Logic to stop tracking work
-            console.log('Stop Working clicked');
+            submitTickLog();
         };
 
         return {
